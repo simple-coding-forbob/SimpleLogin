@@ -24,6 +24,7 @@
 <div class="container">
     <form id="addForm" name="addForm" method="post">
     	<input type="hidden" name="eno" value="<c:out value="${empVO.eno}" />">
+    	<input type="hidden" name="csrf" value="${sessionScope.CSRF_TOKEN}">
         <div class="mb3">
             <label for="ename" class="form-label">ename</label>
             <input 

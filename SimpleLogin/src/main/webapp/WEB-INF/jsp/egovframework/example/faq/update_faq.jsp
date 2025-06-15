@@ -24,6 +24,7 @@
 <div class="page mt3">
     <form id="addForm" name="addForm" method="post">
     	<input type="hidden" name="fno" value="<c:out value="${faqVO.fno}" />">
+    	<input type="hidden" name="csrf" value="${sessionScope.CSRF_TOKEN}">
         <div class="mb3">
             <label for="title" class="form-label">title</label>
             <input 

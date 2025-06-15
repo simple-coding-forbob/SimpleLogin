@@ -22,6 +22,7 @@
 			method="post"
 			enctype="multipart/form-data"
 	>
+	<input type="hidden" name="csrf" value="${sessionScope.CSRF_TOKEN}">
         <div class="mb3">
             <label for="galleryTitle" class="form-label">galleryTitle</label>
             <input  

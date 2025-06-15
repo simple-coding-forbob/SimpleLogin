@@ -1,5 +1,7 @@
 package egovframework.example.cmmn.interceptor;
 
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,11 +30,10 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
         // 2. CSRF 토큰 검증 (POST 요청일 때만)
         if ("POST".equals(request.getMethod())) {
             String sessionToken = (String) session.getAttribute("CSRF_TOKEN");
-            String requestToken = request.getParameter("csrfToken");
+            String requestToken = request.getParameter("csrf");
 
             if (sessionToken == null || !sessionToken.equals(requestToken)) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "CSRF token invalid");
-                return false;
+            	throw new Exception("csrf 위반입니다.");
             }
         }
 
