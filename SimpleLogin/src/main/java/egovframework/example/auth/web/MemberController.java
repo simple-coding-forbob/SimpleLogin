@@ -1,5 +1,7 @@
 package egovframework.example.auth.web;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +23,7 @@ public class MemberController {
 //  로그인 화면
     @GetMapping("/login.do")
     public String loginView() {
+    	
 		return "auth/login";
 	}
     
@@ -29,22 +32,19 @@ public class MemberController {
      * 실패하면 로그인 페이지로 다시 리턴한다.
      */
     @PostMapping("/loginProcess.do")
-    public String login(HttpServletRequest request, @ModelAttribute MemberVO loginVO) throws Exception {
+    public String login(HttpSession session, @ModelAttribute MemberVO loginVO) throws Exception {
     	
         // TODO [Step 4-1-01] LoginService의 authenticate메소드를 이용하여 
     	// 로긴여부 체크 Member 객체를 리턴 받는다.
     	MemberVO memberVO = (MemberVO) memberService.authenticateMember(loginVO);
-
-//    	회원이 없으면
-    	if(memberVO == null) throw new Exception("회원이 없습니다. ");
     	
         /*
-         * TODO [Step 4-1-03] 가져온 account 객체가 null 아닌 경우
-         * request.getSession() 메소드를 통해 Session을 구해 UserMember 이름으로 Session 에
-         * Attribute로 저장한다. 그리고 "redirect:/loginSuccess.do" 값을 반환한다. null 인경우
-         * "login" 반환한다.
+         * 있으면 memberVO 세션을 만듭니다.
          */
-        request.getSession().setAttribute("memberVO", memberVO);
+    	session.setAttribute("memberVO", memberVO);
+        // CSRF 토큰 생성
+        session.setAttribute("CSRF_TOKEN", UUID.randomUUID().toString());
+        
         return "redirect:/"; // 홈(첫페이지)로 이동
     	
     } 

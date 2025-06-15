@@ -2,18 +2,14 @@ package egovframework.example.emp.web;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.common.Criteria;
 import egovframework.example.emp.service.EmpService;
@@ -28,7 +24,7 @@ public class EmpController {
 	@GetMapping("/emp/emp.do")
 	public String selectEmpList(@ModelAttribute("searchVO") Criteria criteria,
 			Model model
-			) throws Exception {
+			) {
 		PaginationInfo paginationInfo = new PaginationInfo();         
 		paginationInfo.setCurrentPageNo(criteria.getPageIndex());
 		paginationInfo.setRecordCountPerPage(criteria.getPageUnit());          
@@ -51,7 +47,7 @@ public class EmpController {
 	}
 	
 	@PostMapping("/emp/add.do")
-	public String insert(@ModelAttribute EmpVO empVO) throws Exception {
+	public String insert(@ModelAttribute EmpVO empVO) {
 		empService.insert(empVO);
 		
 		return "redirect:/emp/emp.do"; 
@@ -59,7 +55,7 @@ public class EmpController {
 	
 
 	@GetMapping("/emp/edition.do")
-	public String updateEmpView(@RequestParam int eno, Model model) throws Exception {
+	public String updateEmpView(@RequestParam int eno, Model model) {
 		EmpVO empVO = empService.selectEmp(eno);
 		model.addAttribute("empVO", empVO);
 		return "emp/update_emp";
@@ -68,13 +64,13 @@ public class EmpController {
 	@PostMapping("/emp/edit.do")
 	public String update(@RequestParam int eno,
 							@ModelAttribute EmpVO empVO
-			) throws Exception {
+			) {
 		empService.update(empVO);
 		return "redirect:/emp/emp.do"; 
 	}
 	
 	@PostMapping("/emp/delete.do")
-	public String delete(@ModelAttribute EmpVO empVO) throws Exception {
+	public String delete(@ModelAttribute EmpVO empVO) {
         empService.delete(empVO);
 		return "redirect:/emp/emp.do"; 
 	}

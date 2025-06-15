@@ -1,5 +1,8 @@
 package egovframework.example.auth.service.impl;
 
+import java.util.Locale;
+
+import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +11,7 @@ import egovframework.example.auth.service.MemberService;
 import egovframework.example.auth.service.MemberVO;
 
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl extends EgovAbstractServiceImpl  implements MemberService {
 
     @Autowired
     private MemberMapper memberMapper;
@@ -19,13 +22,15 @@ public class MemberServiceImpl implements MemberService {
 //	사용자 있는지 DB 조회 
 		MemberVO memberVO = memberMapper.authenticate(loginVO);
 
+//    	회원이 없으면
+    	if(memberVO == null) throw new Exception("errors.login");
+    	
 //	회원이 있으면 암호 체크
 		if (memberVO != null) {
 //    	TODO: 암호화 Bcryt , DB 암호와 입력암호가 같은지 비교
 			boolean isMatchedPassword = BCrypt.checkpw(loginVO.getPassword(), memberVO.getPassword());
 
-			if (isMatchedPassword == false)
-				throw new Exception("암호가 일치하지 않습니다.");
+			if (isMatchedPassword == false) throw processException("errors.login");
 		}
 
 		return memberVO;

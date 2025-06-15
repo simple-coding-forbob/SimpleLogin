@@ -2,13 +2,9 @@ package egovframework.example.cmmn.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.util.WebUtils;
-
-import egovframework.example.auth.service.MemberVO;
 
 public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 	
@@ -16,20 +12,31 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 	 * 세션에 계정정보(Account)가 있는지 여부로 인증 여부를 체크한다.
 	 * 계정정보(Account)가 없다면, 로그인 페이지로 이동한다.
 	 */
-	@Override
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {		
-		
-		// 세션에서 memberVO 가져오기
-		MemberVO memberVO = (MemberVO) WebUtils.getSessionAttribute(request, "memberVO");
-		
-		if(memberVO!=null){
-			// 사용자가 있으면 true 내보내기 => 클릭한 메뉴의 페이지가 보임
-			return true;
-		}else{
-//			사용자가 없으면 로그인 페이지로 강제이동 : 강제 예외 발생
-			ModelAndView modelAndView = new ModelAndView("redirect:/login.do");			
-			throw new ModelAndViewDefiningException(modelAndView);
-		}
-	}
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+
+//    	세션 가져오기: false: 없으면 세션을 만들지 않고 null 리턴
+        HttpSession session = request.getSession(false);
+
+        // 1. 로그인 여부 확인
+        if (session == null || session.getAttribute("memberVO") == null) {
+            response.sendRedirect("/login.do");
+            return false;
+        }
+
+        // 2. CSRF 토큰 검증 (POST 요청일 때만)
+        if ("POST".equals(request.getMethod())) {
+            String sessionToken = (String) session.getAttribute("CSRF_TOKEN");
+            String requestToken = request.getParameter("csrfToken");
+
+            if (sessionToken == null || !sessionToken.equals(requestToken)) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "CSRF token invalid");
+                return false;
+            }
+        }
+
+        // 통과
+        return true;
+    }
 }
