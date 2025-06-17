@@ -76,7 +76,7 @@ a {text-decoration: none;color: var(--black);}
 
 
 /* 글자 중앙정렬 */
-.tcenter{text-align: center !important;}
+.tcenter{text-align:center !important;}
 /* 박스 중앙정렬 */
 .flex-center{display:block;}
 .flex-vcenter{display:block;}
