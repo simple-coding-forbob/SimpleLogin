@@ -23,7 +23,7 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl  implements Membe
 		MemberVO memberVO = memberMapper.authenticate(loginVO);
 
 //    	회원이 없으면
-    	if(memberVO == null) throw new Exception("errors.login");
+    	if(memberVO == null) throw processException("errors.login");
     	
 //	회원이 있으면 암호 체크
 		if (memberVO != null) {
@@ -37,7 +37,13 @@ public class MemberServiceImpl extends EgovAbstractServiceImpl  implements Membe
 	}
 
 	@Override
-	public void registerMember(MemberVO memberVO) {
+	public void registerMember(MemberVO memberVO) throws Exception {
+//		사용자 있는지 DB 조회 
+		MemberVO cmemberVO = memberMapper.authenticate(memberVO);
+
+//	    	회원이 있으면
+    	if(cmemberVO != null) throw processException("errors.register");
+	    	
 //    	TODO: 암호화 Bcryt(salting 난수화 알고리즘 적용: 레인보우테이블 해킹공격 방어), 암호는 해싱(암호화)해서 DB 에 저장함.
     	String hashedPassword = BCrypt.hashpw(memberVO.getPassword(), BCrypt.gensalt());
     	memberVO.setPassword(hashedPassword);

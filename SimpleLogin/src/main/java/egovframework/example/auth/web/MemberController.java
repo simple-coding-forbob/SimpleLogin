@@ -2,11 +2,11 @@ package egovframework.example.auth.web;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,19 +57,13 @@ public class MemberController {
     
 //  가입 버튼 클릭시 실행될 함수
     @PostMapping("/register/addition.do")
-    public String register(HttpServletRequest request, @ModelAttribute MemberVO memberVO) throws Exception {
-    	
-    	MemberVO memberVO2 = (MemberVO) memberService.authenticateMember(memberVO);
-    	
-//    	로그인이 되어 있으면 회원이므로 회원가입 필요없음. / 으로 이동시킴
-    	if(memberVO2 != null) {
-    		throw new Exception("이미 가입되어 있습니다. ");
-    	}
+    public String register(Model model, @ModelAttribute MemberVO memberVO) throws Exception {
     	
 //    	서비스의 insert 함수 실행
     	memberService.registerMember(memberVO);
-
-        return "redirect:/"; // 홈(첫페이지)로 이동
+    	
+    	model.addAttribute("msg", "회원 가입을 성공했습니다.");
+        return "auth/register";
     	
     } 
     

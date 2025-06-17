@@ -64,22 +64,22 @@
       <!-- 메뉴(오른쪽) -->
       <ul class="navbar-nav">
         <!-- {/* 로그인 시작 */} -->
-        <li class="nav-item">
-          <a class="nav-link active" href="/register.do"> 회원가입 </a>
-        </li>
         <c:if test="${sessionScope.memberVO == null}">
-         <li class="nav-item">
-           <a class="nav-link active" href="/login.do"> 로그인 </a>
-         </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" href="/register.do"> 회원가입 </a>
+	        </li>
+	         <li class="nav-item">
+	           <a class="nav-link active" href="/login.do"> 로그인 </a>
+	         </li>
         </c:if>
         <!-- {/* 로그인 끝 */} -->
 
         <!-- {/* 로그아웃 시작 */} -->
         <c:if test="${sessionScope.memberVO != null}">
-         <li class="nav-item">
-           <a href="/logout.do" class="nav-link active"> 로그아웃
-           </a>
-         </li>
+	         <li class="nav-item">
+	           <a href="/logout.do" class="nav-link active"> 로그아웃
+	           </a>
+	         </li>
         </c:if>
         <!-- {/* 로그아웃 끝 */} -->
       </ul>

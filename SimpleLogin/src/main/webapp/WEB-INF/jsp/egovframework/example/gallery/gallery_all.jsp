@@ -43,6 +43,7 @@
 	<form class="page mt3" id="listForm" name="listForm" method="get">
 		<input type="hidden" id="uuid" name="uuid" >
 		<input type="hidden" id="pageIndex" name="pageIndex">
+		<input type="hidden" name="csrf" value="${sessionScope.CSRF_TOKEN}">
 		<div class="input-group mb3 mt3">
 			<input type="text" class="form-control" 
 			    id="searchKeyword"
