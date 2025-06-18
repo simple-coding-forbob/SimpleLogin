@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/task 
+           http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- Quartz Job 설정 -->
+    <bean id="myJob" class="egovframework.example.common.PublicApiJob">
+    </bean>
+
+    <!-- Quartz Trigger 설정 -->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="myJob"/>
+        <property name="cronExpression" value="0 0 6 * * ?"/> <!-- 매일 오전 6시 -->
+    </bean>
+
+    <!-- Quartz SchedulerFactoryBean 설정 -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>
+

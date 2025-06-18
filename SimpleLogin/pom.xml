@@ -170,7 +170,14 @@
 			<groupId>org.mindrot</groupId>
 			<artifactId>jbcrypt</artifactId>
 			<version>0.3m</version>
-		</dependency>	
+		</dependency>
+		
+		<!-- quartz 관련 -->
+		<dependency>
+		  <groupId>org.quartz-scheduler</groupId>
+		  <artifactId>quartz</artifactId>
+		  <version>2.3.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
