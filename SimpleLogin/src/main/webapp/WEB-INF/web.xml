@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app.xsd">
+	<display-name>egov.sample</display-name>
+    
+    <!-- 서블릿 설정 파일 -->
+    <!-- 필터: 스프링 가기전 처리할 것들 설정 -->
+    <!-- encodingFilter 기능: 언어셋 지정 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	<!-- 어떤 URL 요청에 위의 기능을 실행할 지 지정:.do로 끝나는 요청 URL에만 적용된다 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+    
+    <!-- 웹 매개변수 같은 입력된 요청에 대해 HTML 태그를 필터링: XSS 공격 방어 -->
+	<filter>
+		<filter-name>HTMLTagFilter</filter-name>
+		<filter-class>org.egovframe.rte.ptl.mvc.filter.HTMLTagFilter</filter-class>
+	</filter>
+	<!-- 어떤 URL 요청에 위의 기능을 실행할 지 지정:.do로 끝나는 요청 URL에만 적용된다 -->
+	<filter-mapping>
+		<filter-name>HTMLTagFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+    
+    <!-- 스프링 설정 파일 위치 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:egovframework/spring/context-*.xml</param-value>
+	</context-param>
+    
+    <!-- 서블릿과 스프링을 연결하는 설정 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+    
+    <!-- 서블릿에서 스프링의 설정파일의 위치를 알려줌 -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/egovframework/springmvc/dispatcher-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+    <!-- 어떤 URL 요청에 위의 기능을 실행할 지 지정:.do로 끝나는 요청 URL에만 적용된다 -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+    
+    <!-- 첫페이지 설정 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+    
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+    
+    <!-- 각 신호(404,500) 또는 일반 상황에서 처리할 에러페이지 지정 -->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/common/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/common/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/common/error.jsp</location>
+	</error-page>
+    
+</web-app>
