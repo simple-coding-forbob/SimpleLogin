@@ -1,2 +1,1 @@
 # SimpleLogin
-SimpleLogin
