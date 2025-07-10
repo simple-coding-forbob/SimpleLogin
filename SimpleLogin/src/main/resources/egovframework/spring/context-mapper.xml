@@ -11,7 +11,7 @@
 
 	<!-- 지정된 경로에서 @Mapper가 붙은 인터페이스를 자동으로 빈으로 등록합니다 -->
  	<bean class="org.egovframe.rte.psl.dataaccess.mapper.MapperConfigurer">
- 	<!-- Mapper 경로 수정 -->
+ 	<!-- Mapper 경로 수정(추가): sample -> * -->
 		<property name="basePackage" value="egovframework.example.*.service.impl" />
 	</bean>
     

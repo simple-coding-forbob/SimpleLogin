@@ -5,7 +5,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 <!-- 전자정부 AOP 기능 설정: 공통 예외처리를 위한 설정을 합니다. : 
-     사용안함 -> @ControllerAdvise 사용 -->
+     사용안함 -> 실습은 @ControllerAdvise 사용합니다. -->
 	<aop:config>
 		<aop:pointcut id="serviceMethod" expression="execution(* egovframework.example..impl.*Impl.*(..))" />
 

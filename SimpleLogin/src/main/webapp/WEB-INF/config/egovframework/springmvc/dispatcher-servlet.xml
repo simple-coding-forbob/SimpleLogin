@@ -11,6 +11,7 @@
                 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd"
                 >
 
+<!-- 로그인 인터셉터 등록 -->
  	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/dept/**" />

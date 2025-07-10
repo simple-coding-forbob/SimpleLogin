@@ -4,10 +4,10 @@
 		xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app.xsd">
 	<display-name>egov.sample</display-name>
     
-    <!-- 서블릿 설정 파일 -->
-    <!-- 필터: 스프링 가기전 처리할 것들 설정 -->
-    <!-- encodingFilter 기능: 언어셋 지정 -->
-	<filter>
+    <!-- 서블릿 환경 설정 파일입니다. -->
+    <!-- 필터 설정: 스프링 가기 전에 처리할 것들 작성합니다. -->
+    <!-- UTF-8 언어셋을 지정 -->
+	<filter>	
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
@@ -15,24 +15,24 @@
 			<param-value>utf-8</param-value>
 		</init-param>
 	</filter>
-	<!-- 어떤 URL 요청에 위의 기능을 실행할 지 지정:.do로 끝나는 요청 URL에만 적용된다 -->
+	<!-- URL이 .do 로 끝나는 경로에 대해 위의 필터를 적용합니다. -->
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
     
-    <!-- 웹 매개변수 같은 입력된 요청에 대해 HTML 태그를 필터링: XSS 공격 방어 -->
+    <!-- 쿼리스트링의 XSS 해킹 공격 방어 -->
 	<filter>
 		<filter-name>HTMLTagFilter</filter-name>
 		<filter-class>org.egovframe.rte.ptl.mvc.filter.HTMLTagFilter</filter-class>
 	</filter>
-	<!-- 어떤 URL 요청에 위의 기능을 실행할 지 지정:.do로 끝나는 요청 URL에만 적용된다 -->
+<!-- URL이 .do 로 끝나는 경로에 대해 위의 필터를 적용합니다. -->
 	<filter-mapping>
 		<filter-name>HTMLTagFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
     
-    <!-- 스프링 설정 파일 위치 -->
+    <!-- 스프링의 content-*.xml 파일 위치를 지정합니다. -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:egovframework/spring/context-*.xml</param-value>
@@ -53,7 +53,7 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-    <!-- 어떤 URL 요청에 위의 기능을 실행할 지 지정:.do로 끝나는 요청 URL에만 적용된다 -->
+<!-- URL이 .do 로 끝나는 경로에 대해 위의 필터를 적용합니다. -->
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
