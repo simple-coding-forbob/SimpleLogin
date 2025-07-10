@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-<!-- 컨트롤러를 제외한 컴포넌트 스캔: @Service, @Repository, @Component 등 -->
+<!-- @Service, @Repository, @Component 등을 찾을 위치를 지정합니다. 단, @Component 는 제외됩니다. -->
     <context:component-scan base-package="egovframework">
        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
